@@ -9,11 +9,11 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class ActionDTO
+public class LoginActionDTO
 {
     private String channel;
-    private String tag;
-    private String action;
     private String userId;
+    private List<String> tag;
+    private String action;
 
 }

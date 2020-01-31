@@ -50,22 +50,22 @@ public class KafkaConsumerConfiguration {
         return factory;
     }
 
+    @Bean
+    public ConsumerFactory<String,String> consumerFactory1(){
+        Map<String,Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,"10.177.68.118:9092");
+        config.put(ConsumerConfig.GROUP_ID_CONFIG,"group-id");
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class);
+        return  new DefaultKafkaConsumerFactory<>(config,new StringDeserializer(),new StringDeserializer());
+    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String,String> kafkaListenerContainerFactory1(){
+        ConcurrentKafkaListenerContainerFactory<String,String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory1());
+        return factory;
+    }
 
-//    @Bean
-//    public ConsumerFactory<String, UIDTO> userConsumerFactory1() {
-//        Map<String, Object> config = new HashMap<>();
-//        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-//        config.put(ConsumerConfig.GROUP_ID_CONFIG, "group-id");
-//        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-//        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-//        return new DefaultKafkaConsumerFactory<String, UIDTO>(config, new StringDeserializer(),
-//                new JsonDeserializer<>(UIDTO.class));
-//    }
-//
-//    @Bean
-//    public ConcurrentKafkaListenerContainerFactory<String, UIDTO> userkafkaListenerContainerFactory() {
-//        ConcurrentKafkaListenerContainerFactory<String, UIDTO> factory = new ConcurrentKafkaListenerContainerFactory<String, UIDTO>();
-//        factory.setConsumerFactory(userConsumerFactory1());
-//        return factory;
-//    }
+
+
 }

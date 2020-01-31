@@ -7,9 +7,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UIDTO
+public class QuizDTO
 {
-    private String channel;
-    private String tag;
+
+    private String userId;
     private String action;
 }
