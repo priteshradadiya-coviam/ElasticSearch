@@ -16,6 +16,7 @@ public class AdDTO
 
     String categoryName;
 
+
     String userId;
     String description;
 

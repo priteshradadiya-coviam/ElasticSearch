@@ -1,14 +1,14 @@
-spring:
-  kafka:
-    producer:
-      bootstrap-servers: localhost:9092
-      group-id: group-id
-      auto-offset-reset: earliest
-      key-serializer: org.apache.configuration.common.serialization.StringSerializer
-      value-serializer: org.apache.configuration.common.serialization.StringSerializer
-    consumer:
-        bootstrap-servers: localhost:9092
-        group-id: group-id
-        auto-offset-reset: earliest
-        key-deserializer: org.apache.configuration.common.serialization.StringDeserializer
-        value-deserializer: org.apache.configuration.common.serialization.StringDeserializer
+#spring:
+#  kafka:
+#    producer:
+#      bootstrap-servers: localhost:9092
+#      group-id: group-id
+#      auto-offset-reset: earliest
+#      key-serializer: org.apache.configuration.common.serialization.StringSerializer
+#      value-serializer: org.apache.configuration.common.serialization.StringSerializer
+#    consumer:
+#        bootstrap-servers: localhost:9092
+#        group-id: group-id
+#        auto-offset-reset: earliest
+#        key-deserializer: org.apache.configuration.common.serialization.StringDeserializer
+#        value-deserializer: org.apache.configuration.common.serialization.StringDeserializer

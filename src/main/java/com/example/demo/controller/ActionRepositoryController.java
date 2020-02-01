@@ -1,15 +1,19 @@
 package com.example.demo.controller;
 
+//import com.example.demo.client.LoginClient;
 import com.example.demo.client.LoginClient;
 import com.example.demo.dto.*;
 import com.example.demo.service.ActionService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.DatatypeConverter;
 import java.util.List;
 import java.util.Map;
 
@@ -33,10 +37,15 @@ public class ActionRepositoryController {
     @Autowired
     LoginClient loginClient;
 
+    private String secret="testProject";
+
     @PostMapping("/add")
     public void addAction(@RequestBody UIDTO uidto,@RequestHeader("accessToken") String accessToken) throws JsonProcessingException {
 
-        String userId=loginClient.getUserIdFromAccessToken(accessToken);
+        String token=accessToken.substring(7);
+
+        Claims claims=this.parseToken(token);
+        String userId = String.valueOf(claims.get("userId")).trim();
         ObjectMapper objectMapper=new ObjectMapper();
         ActionDTO actionDTO=new ActionDTO();
         BeanUtils.copyProperties(uidto,actionDTO);
@@ -47,12 +56,19 @@ public class ActionRepositoryController {
 
     @PostMapping("/addLogin")
     public  void addLoginAction(@RequestBody LoginDTO loginDTO, @RequestHeader("accessToken") String accessToken) throws JsonProcessingException {
-        String userId=loginClient.getUserIdFromAccessToken(accessToken);
+        System.out.println(accessToken);
+        String token=accessToken.substring(7);
+
+        Claims claims=this.parseToken(token);
+        String userId = String.valueOf(claims.get("userId")).trim();
+
+        System.out.println(userId);
+        // String userId=loginClient.getUserIdFromAccessToken(accessToken);
         ObjectMapper objectMapper=new ObjectMapper();
         LoginActionDTO loginActionDTO=new LoginActionDTO();
         BeanUtils.copyProperties(loginDTO,loginActionDTO);
 
-        loginActionDTO.setUserId(userId);
+       loginActionDTO.setUserId(userId);
         kafkaTemplate.send(TOPIC2,objectMapper.writeValueAsString(loginActionDTO));
         //return "success";
     }
@@ -112,6 +128,15 @@ public class ActionRepositoryController {
     public String findMostPopularTagOnQuora()
     {
         return actionService.findMostPopularTagOnQuora();
+    }
+
+
+    public Claims parseToken(String token) {
+        //This line will throw an exception if it is not a signed JWS (as expected)
+        Claims claims = Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(secret))
+                .parseClaimsJws(token).getBody();
+        return claims;
     }
 
 

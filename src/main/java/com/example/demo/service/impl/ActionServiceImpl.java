@@ -52,6 +52,7 @@ public class ActionServiceImpl implements ActionService {
     @KafkaListener(topics = "clicks",groupId = "group-id",containerFactory = "kafkaListenerContainerFactory1")
     public void addAds(String ads)
     {
+        System.out.println(ads);
          AdDTO adDTO = new AdDTO();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -86,6 +87,7 @@ public class ActionServiceImpl implements ActionService {
             action1.setTag(tag);
             action1.setUserId(loginActionDTO.getUserId());
             actionRepository.save(action1);
+            System.out.println(action1);
 
         }
 
@@ -106,7 +108,8 @@ public class ActionServiceImpl implements ActionService {
         }
         Quiz quiz=new Quiz();
         BeanUtils.copyProperties(quizDTO,quiz);
-        quizRepository.save(quiz);
+        Quiz quiz1=quizRepository.save(quiz);
+        System.out.println(quiz1);
     }
 
 
