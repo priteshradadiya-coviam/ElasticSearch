@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/repo")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class ActionRepositoryController {
 
     private static final String TOPIC ="action";
@@ -57,9 +57,9 @@ public class ActionRepositoryController {
     @PostMapping("/addLogin")
     public  void addLoginAction(@RequestBody LoginDTO loginDTO, @RequestHeader("accessToken") String accessToken) throws JsonProcessingException {
         System.out.println(accessToken);
-        String token=accessToken.substring(7);
+       // String token=accessToken.substring(7);
 
-        Claims claims=this.parseToken(token);
+        Claims claims=this.parseToken(accessToken);
         String userId = String.valueOf(claims.get("userId")).trim();
 
         System.out.println(userId);

@@ -120,7 +120,7 @@ public class ActionServiceImpl implements ActionService {
         List<Action> actionList2=searchQueryBuilder.getAll(userId,"login");
         List<String> likeTagList=new ArrayList<>();
         List<String> dislikeTagList=new ArrayList<>();
-        List<String> intersetTagList=new ArrayList<>();
+        List<String> interestTagList=new ArrayList<>();
         for (Action action:actionList)
         {
             likeTagList.add(action.getTag());
@@ -134,19 +134,21 @@ public class ActionServiceImpl implements ActionService {
         }
         for (Action action:actionList2)
         {
-                intersetTagList.add(action.getTag());
+                interestTagList.add(action.getTag());
 
         }
         if(likeTagList!=null && dislikeTagList!=null) {
             likeTagList.removeAll(dislikeTagList);
         }
-        if(likeTagList!=null && intersetTagList!=null)
-        likeTagList.addAll(intersetTagList);
+        if(likeTagList!=null && interestTagList!=null)
+        likeTagList.addAll(interestTagList);
 
-        if(likeTagList==null && intersetTagList!=null)
+        if(likeTagList==null && interestTagList!=null)
         {
-            return intersetTagList;
+            return interestTagList;
         }
+        if(interestTagList==null)
+            return new ArrayList<String>();
 
             return likeTagList;
     }
